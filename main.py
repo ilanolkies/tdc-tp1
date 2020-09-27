@@ -11,8 +11,8 @@ entries = []
 try:
 	os.makedirs('capturas')
 except OSError as e:
-  if e.errno != errno.EEXIST:
-    raise
+    if e.errno != errno.EEXIST:
+        raise
 
 def mostrar_fuentes(S):
     N = sum(S.values())
