@@ -18,4 +18,4 @@
   python main.py
   ```
 
-4. Resultados en `./capturas.csv`
+4. Resultados en `./capturas/capturas-N.csv` con `N` la cantidad de capturas
