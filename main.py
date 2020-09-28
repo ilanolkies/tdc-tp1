@@ -4,9 +4,11 @@ from scapy.layers.l2 import Ether
 import numpy as np
 import pandas as pd
 import os
+from datetime import datetime
 
 S1 = {}
-entries = []
+datos = {}
+
 
 try:
 	os.makedirs('capturas')
@@ -18,9 +20,14 @@ def mostrar_fuentes(S):
     N = sum(S.values())
     if N%10!=0:
         return
-    if N%100==0:
-        df = pd.DataFrame(entries)
-        df.to_csv('capturas/capturas-{}.csv'.format(N))
+
+    if N%10000==0:
+        df = pd.DataFrame.from_dict(datos, orient='index', columns=S1.keys())
+        df = df.fillna(0)
+        df.to_csv('capturas/capturas.csv')
+
+
+
     simbolos = sorted(S.items(), key=lambda x: -x[-1])
     entropia = 0
     broadcast = 0
@@ -37,16 +44,22 @@ def mostrar_fuentes(S):
     print("BROADCAST : %.2f%%" % (100*broadcast))
     print("UNICAST : %.2f%%\n" % (100*unicast))
 
+
 def callback(pkt):
     if pkt.haslayer(Ether):
+
         dire = "BROADCAST" if pkt[Ether].dst == "ff:ff:ff:ff:ff:ff" else "UNICAST"
         proto = pkt[Ether].type
         s_i = (dire, proto)
-        entries.append(s_i)
         if s_i not in S1:
             S1[s_i] = 0.0
 
         S1[s_i] += 1.0
+
+        S2 = S1.copy()
+        datos[datetime.now()] = S2.values()
+
+
     mostrar_fuentes(S1)
 
 
