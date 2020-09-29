@@ -3,7 +3,6 @@ import networkx as nx
 
 # df tiene filas (v, w, p)
 def createGraph(df):
-
     G = nx.Graph()
 
     for index, row in df.iterrows():
@@ -12,13 +11,14 @@ def createGraph(df):
     pos = nx.spring_layout(G)  # positions for all nodes
 
     # nodes
-    nx.draw_networkx_nodes(G, pos, node_size=700)
+    nx.draw_networkx_nodes(G, pos, node_size=300)
 
     # edges
     nx.draw_networkx_edges(G, pos)
 
     # labels
-    nx.draw_networkx_labels(G, pos, font_size=10)
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=nx.get_edge_attributes(G, 'weight'), font_size=10)
+    nx.draw_networkx_labels(G, pos, font_size=8)
 
     plt.axis("off")
     fig = plt.gcf()
