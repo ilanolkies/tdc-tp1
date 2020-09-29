@@ -9,7 +9,6 @@ from datetime import datetime
 S1 = {}
 datos = {}
 
-
 try:
 	os.makedirs('capturas')
 except OSError as e:
@@ -25,7 +24,7 @@ def mostrar_fuentes(S):
         df = pd.DataFrame.from_dict(datos, orient='index', columns=S1.keys())
         df = df.fillna(0)
         df.to_csv('capturas/capturas.csv')
-
+        exit(0)
 
 
     simbolos = sorted(S.items(), key=lambda x: -x[-1])
